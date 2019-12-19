@@ -51,7 +51,7 @@ contract("SimpleStorage", function() {
   });
 
   it('listens to events', function(done) {
-    SimpleStorage.once('EventOnSet2', async function(error, result) {
+    SimpleStorage.once('EventOnSet2', function(error, result) {
       assert.strictEqual(error, null);
       assert.strictEqual(parseInt(result.returnValues.setValue, 10), 150);
       done(error);
@@ -59,7 +59,7 @@ contract("SimpleStorage", function() {
 
     SimpleStorage.methods.set2(150).send();
   });
-
+  
   it('asserts event triggered', async function() {
     const tx = await SimpleStorage.methods.set2(160).send();
     assert.eventEmitted(tx, 'EventOnSet2', {passed: true, message: "hi", setValue: "160"});
